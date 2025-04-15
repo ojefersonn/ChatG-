@@ -1,0 +1,15 @@
+gradio
+langchain-openai
+langchain-experimental
+langchain-text-splitters
+pandas
+langchain
+langchain-community
+chromadb
+sentence-transformers
+pypdf
+unstructured
+langchain-huggingface
+openai
+gdown
+langsmith
