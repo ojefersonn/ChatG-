@@ -13,3 +13,5 @@ langchain-huggingface
 openai
 gdown
 langsmith
+sentence-transformers
+pip install hf_xet
