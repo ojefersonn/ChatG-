@@ -18,3 +18,4 @@ hf_xet
 streamlit
 python-dotenv
 langchainhub
+faiss-cpu
