@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -46,7 +52,7 @@ rag = (
 import streamlit as st
 
 st.set_page_config(page_title="Chat RAG", layout="centered")
-st.title("Chat Gê")
+st.title("Chat")
 
 # Inicializa histórico
 if "mensagens" not in st.session_state:
@@ -67,6 +73,15 @@ if st.button("Enviar") or (pergunta and pergunta != st.session_state.get("ultima
         resposta = rag.invoke(pergunta)
         st.session_state.mensagens.append({"pergunta": pergunta, "resposta": resposta})
         st.session_state.ultima_pergunta = pergunta
-        st._rerun()
+        st.rerun()
     except Exception as e:
         st.error(f"Erro ao gerar resposta: {e}")
+
+
+# In[2]:
+
+# In[ ]:
+
+
+
+
