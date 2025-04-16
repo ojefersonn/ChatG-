@@ -3,17 +3,18 @@
 
 # In[1]:
 
-
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
+from langchain.vectorstores import FAISS
+import streamlit as st
 
 dados = PyPDFLoader("Dados/D11246.pdf").load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)
 textos = text_splitter.split_documents(dados)
 embedding_engine = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-vector_db = Chroma.from_documents(textos, embedding_engine)
+vector_db = FAISS.from_documents(textos, embedding_engine)
 
 from langchain import hub
 from langchain_openai import ChatOpenAI
@@ -24,7 +25,7 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 n_documentos = 1
 
 def format_docs(documentos):
@@ -49,7 +50,7 @@ rag = (
 
 #Streamlit
 
-import streamlit as st
+
 
 st.set_page_config(page_title="Chat RAG", layout="centered")
 st.title("Chat")
