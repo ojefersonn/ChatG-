@@ -4,3 +4,4 @@ venv/
 *.pyc
 __pycache__/
 .ipynb_checkpoints/app-checkpoint.ipynb
+.streamlit/secrets.toml
