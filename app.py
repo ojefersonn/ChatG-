@@ -87,8 +87,13 @@ def gerar_resposta(pergunta):
 
 # =====================
 # 🎤 Entrada do usuário + resposta do assistente
-# =====================
-if pergunta := st.chat_input("Qual sua dúvida sobre o decreto?"):
+pergunta = st.chat_input("Qual sua dúvida sobre o decreto?")
+
+if pergunta:
+    # Garante que começa com 'question:'
+    if not pergunta.startswith("question:"):
+        pergunta = f"question: {pergunta}"
+
     st.session_state.messages.append({"role": "user", "content": pergunta})
     with st.chat_message("user"):
         st.markdown(pergunta)
