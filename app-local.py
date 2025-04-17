@@ -9,13 +9,13 @@ from dotenv import load_dotenv
 import os
 
 # =====================
-# 🔐 Carrega variáveis de ambiente
+# Carrega variáveis de ambiente
 # =====================
 load_dotenv()
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 # =====================
-# 💬 Interface Streamlit
+# Interface Streamlit
 # =====================
 st.title("💬 Chatbot com RAG - Decreto 11.246/2022")
 st.write("Chatbot com busca contextual usando PDF do Decreto 11.246/2022")
@@ -25,14 +25,14 @@ if not OPENAI_API_KEY:
     st.stop()
 
 # =====================
-# 📄 Carregamento e segmentação do PDF
+# Carregamento e segmentação do PDF
 # =====================
 dados = PyPDFLoader("Dados/D11246.pdf").load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)
 textos = text_splitter.split_documents(dados)
 
 # =====================
-# 🧠 Embeddings + ChromaDB com persistência
+# Embeddings + ChromaDB com persistência
 # =====================
 embedding_engine = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
 vector_db_path = "chroma_db"
@@ -44,7 +44,7 @@ else:
     vector_db = Chroma(persist_directory=vector_db_path, embedding_function=embedding_engine)
 
 # =====================
-# 🤖 LLM + Prompt personalizado
+# LLM + Prompt personalizado
 # =====================
 llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-4")
 
@@ -52,7 +52,7 @@ prompt_template = PromptTemplate(
     input_variables=["context", "question", "history"],
     template="""
 Você é um assistente especializado no Decreto 11.246/2022.
-Baseie sua resposta apenas nos trechos abaixo. Se não souber, diga que não sabe.
+Baseie sua resposta apenas nos trechos abaixo. Se não souber, peça uma pergunta mais elaborada ou um contexto melhor.
 
 {context}
 
@@ -65,7 +65,7 @@ Resposta:
 )
 
 # =====================
-# 💬 Sessão e Histórico
+# Sessão e Histórico
 # =====================
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -76,7 +76,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # =====================
-# 📚 Funções auxiliares
+# Funções auxiliares
 # =====================
 def format_docs(documentos):
     return "\n\n---\n\n".join(
@@ -92,7 +92,7 @@ def gerar_resposta(pergunta):
     return llm.invoke(prompt_formatado).content
 
 # =====================
-# 🎤 Entrada do usuário + resposta do assistente
+# Entrada do usuário + resposta do assistente
 # =====================
 if pergunta := st.chat_input("Qual sua dúvida sobre o decreto?"):
     st.session_state.messages.append({"role": "user", "content": pergunta})
