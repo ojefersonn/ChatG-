@@ -5,7 +5,6 @@ langchain-text-splitters
 pandas
 langchain
 langchain-community
-chromadb
 sentence-transformers
 pypdf
 unstructured
