@@ -2,7 +2,7 @@ import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -32,16 +32,10 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100
 textos = text_splitter.split_documents(dados)
 
 # =====================
-# 🧠 Embeddings + ChromaDB com persistência
+# 🧠 Embeddings + FAISS
 # =====================
 embedding_engine = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
-vector_db_path = "chroma_db"
-
-if not os.path.exists(vector_db_path):
-    vector_db = Chroma.from_documents(textos, embedding_engine, persist_directory=vector_db_path)
-    vector_db.persist()
-else:
-    vector_db = Chroma(persist_directory=vector_db_path, embedding_function=embedding_engine)
+vector_db = FAISS.from_documents(textos, embedding_engine)
 
 # =====================
 # 🤖 LLM + Prompt personalizado
