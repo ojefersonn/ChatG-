@@ -5,3 +5,6 @@ venv/
 __pycache__/
 .ipynb_checkpoints/app-checkpoint.ipynb
 .streamlit/secrets.toml
+chroma_db/
+.app.ipynb(descontinuado)
+.app.py(descontinuado)
